@@ -22,7 +22,7 @@ def on_press(key):
 
 
 def on_release(key):
-    if key == keyboard.Key.esc:
+    if key == keyboard.Key.esc or (key == keyboard.KeyCode.from_char('c') and key.ctrl):
         return False  
 
 
