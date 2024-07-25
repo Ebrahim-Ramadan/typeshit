@@ -1,8 +1,9 @@
 from pynput import keyboard
 from langdetect import detect
-import time  # Import time module for adding delay
-
-# Defining a mapping from Arabic to English based on QWERTY keyboard layout
+import time
+from pynput.keyboard import  Controller
+import threading
+# Arabic to English mapping (unchanged)
 arabic_to_english_map = {
     'ض': 'q', 'ص': 'w', 'ث': 'e', 'ق': 'r', 'ف': 't', 'غ': 'y', 'ع': 'u', 'ه': 'i', 'خ': 'o', 'ح': 'p',
     'ج': '[', 'د': ']', 'ش': 'a', 'س': 's', 'ي': 'd', 'ب': 'f', 'ل': 'g', 'ا': 'h', 'ت': 'j', 'ن': 'k',
@@ -27,57 +28,60 @@ def detect_and_correct_text(text):
         print("Error detecting language:", e)
         return text
 
-# Buffer to store the input text
 input_buffer = []
-last_processed_time = time.time()  # Initialize last processed time
-current_keys = set()  # Set to keep track of currently pressed keys
+last_key_time = time.time()
+current_keys = set()
+keyboard_controller = Controller()
+debounce_timer = None
+DEBOUNCE_DELAY = 0.5  # Set the debounce delay to 0.5 seconds
+
+def process_buffer():
+    global input_buffer
+    if input_buffer:
+        text = ''.join(input_buffer)
+        corrected_text = detect_and_correct_text(text)
+        print("Converted Text:", corrected_text)
+        input_buffer.clear()
 
 def on_press(key):
-    global last_processed_time, current_keys  # Access the global variables
+    global last_key_time, current_keys, debounce_timer
 
     try:
-        # Add key to the set of currently pressed keys
+        if keyboard.Key.esc in current_keys and hasattr(key, 'char') and key.char == 'q':
+            print("Escape + Q pressed. Exiting...")
+            return False
+
         if hasattr(key, 'char') and key.char:
             input_buffer.append(key.char)
-        elif key == keyboard.Key.space:  # Handle space key
+        elif key == keyboard.Key.space:
             input_buffer.append(' ')
-        elif key == keyboard.Key.backspace:  # Handle backspace key
+        elif key == keyboard.Key.backspace:
             if input_buffer:
                 input_buffer.pop()
         elif key == keyboard.Key.enter:
-            text = ''.join(input_buffer)
-            input_buffer.clear()
-            corrected_text = detect_and_correct_text(text)
-            print("Converted Text:", corrected_text)
-            return  # Exit the function to avoid additional processing
-        
+            process_buffer()
+            return
+
         current_keys.add(key)
+        last_key_time = time.time()
 
-        # Check if Ctrl + X is pressed
-        if keyboard.Key.ctrl_l in current_keys and hasattr(key, 'char') and key.char == 'x':
-            print("Ctrl + X pressed. Exiting...")
-            return False  # Stop the listener and exit the script
-
-        # Check time since last processing
-        current_time = time.time()
-        if current_time - last_processed_time >= 0.5:  # Delay of 0.5 seconds
-            text = ''.join(input_buffer)
-            corrected_text = detect_and_correct_text(text)
-            print("Converted Text:", corrected_text)
-            last_processed_time = current_time  # Update last processed time
+        # Cancel the previous timer and start a new one
+        if debounce_timer is not None:
+            debounce_timer.cancel()
+        debounce_timer = threading.Timer(DEBOUNCE_DELAY, process_buffer)
+        debounce_timer.start()
 
     except Exception as e:
         print("Error processing key:", e)
 
 def on_release(key):
-    global current_keys  # Access the global variable
-
+    global current_keys
     try:
-        # Remove key from the set of currently pressed keys
         current_keys.discard(key)
     except Exception as e:
         print("Error processing key release:", e)
 
+# Start the keyboard listener
 with keyboard.Listener(on_press=on_press, on_release=on_release) as listener:
     print("Listening for all typing events. Converted text will be logged here.")
     listener.join()
