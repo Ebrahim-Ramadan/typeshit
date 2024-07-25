@@ -12,7 +12,7 @@ arabic_to_english_map = {
     '٧': '7', '٨': '8', '٩': '9', '٠': '0', ' ': ' ', ',': ',', '.': '.', '/': '/', '`': '`', '-': '-',
     '=': '=', ';': ';', '\'': '\'', '[': '[', ']': ']', '\\': '\\'
 }
-# manual configs for the transilicteration i dunno
+# manual configs for the transilicteration or i dunno
 
 def transliterate_arabic_to_english(text):
     return ''.join(arabic_to_english_map.get(char, char) for char in text)
@@ -95,5 +95,5 @@ def on_release(key):
 
 
 with keyboard.Listener(on_press=on_press, on_release=on_release) as listener:
-    print("listening for all typing events. Converted text will be logged here.")
+    print("listening now for all typing events. Converted text will be logged here...")
     listener.join()
