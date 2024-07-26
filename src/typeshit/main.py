@@ -97,11 +97,12 @@ def on_release(key):
         print("err processing key release:", e)
 
 
-def main():
+def autotypeshit():
     # Your existing code here
     with keyboard.Listener(on_press=on_press, on_release=on_release) as listener:
         print("Listening now for all typing events. Converted text will be logged here...")
         listener.join()
 
 if __name__ == "__main__":
-    main()
+    autotypeshit()
+    

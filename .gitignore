@@ -1,3 +1,4 @@
 myenvass/
 __pycache__
 dist
+.env

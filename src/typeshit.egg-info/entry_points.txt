@@ -1,2 +1,2 @@
 [console_scripts]
-typeshit = typeshit.main:main
+typeshit = typeshit.main:autotypeshit
