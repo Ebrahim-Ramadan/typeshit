@@ -21,11 +21,11 @@ def detect_and_correct_text(text):
     try:
         language = detect(text)
         print('read', language)
-        if language == 'ar':
-            corrected_text = transliterate_arabic_to_english(text)
-            return corrected_text
-        else:
-            return text
+        # if language == 'ar':
+        corrected_text = transliterate_arabic_to_english(text)
+        return corrected_text
+        # else:
+        #     return text
     except Exception as e:
         print("err detecting language:", e)
         return text
