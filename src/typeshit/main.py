@@ -44,24 +44,27 @@ def process_buffer():
         text = ''.join(input_buffer)
         corrected_text = detect_and_correct_text(text)
         
-        for _ in range(len(text)):
-            keyboard_controller.press(Key.backspace)
-            keyboard_controller.release(Key.backspace)
-        # clearing
-        
+        # Type the corrected text
+        keyboard_controller.press(Key.space) # type space (lol)
         keyboard_controller.type(corrected_text)
-        # now typing
+        
+        keyboard_controller.press(Key.shift)
+        for _ in range(len(corrected_text)):
+            keyboard_controller.press(Key.left)
+            keyboard_controller.release(Key.left)
+        keyboard_controller.release(Key.shift)
+        
         print("Converted Text:", corrected_text)
         input_buffer.clear()
     
 
-def on_press(key):
+def on_press(key): 
     global last_key_time, current_keys, debounce_timer
 
     try:
-        if keyboard.Key.esc in current_keys and hasattr(key, 'char') and key.char == 'q':
+        if keyboard.Key.esc in current_keys and key == keyboard.Key.from_char('q'):
             print("Escape + Q pressed. Exiting...")
-            return False
+            return False  # This will stop the listener
 # this scipt exiting doesnt work yet fuck have no idea
         if hasattr(key, 'char') and key.char:
             input_buffer.append(key.char)
@@ -94,6 +97,11 @@ def on_release(key):
         print("err processing key release:", e)
 
 
-with keyboard.Listener(on_press=on_press, on_release=on_release) as listener:
-    print("listening now for all typing events. Converted text will be logged here...")
-    listener.join()
+def main():
+    # Your existing code here
+    with keyboard.Listener(on_press=on_press, on_release=on_release) as listener:
+        print("Listening now for all typing events. Converted text will be logged here...")
+        listener.join()
+
+if __name__ == "__main__":
+    main()

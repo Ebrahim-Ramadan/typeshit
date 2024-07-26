@@ -1,0 +1,26 @@
+Metadata-Version: 2.1
+Name: typeshit
+Version: 0.1
+Summary: wrong lang? you got typeshit
+Home-page: https://github.com/ebrahim-ramadan/wetype
+Author: Ebrahim Ramadan
+Author-email: ramadanebrahim791@gmail.com
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: pynput
+Requires-Dist: langdetect
+
+# mody-tool-myass
+
+[ilustration](illustration.mp4)
+<br/>
+you should activate the python env to has the separated env for the project
+<br/>
+## how the threading delay works:
++ Every time a key is pressed, it cancels the previous timer (if any) and starts a new one.
+* If there's no further keypress within the debounce delay, the timer will trigger the `process_buffer` function.
+<br/>
+`test.txt` is just for typing test

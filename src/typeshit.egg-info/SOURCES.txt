@@ -1,0 +1,11 @@
+LICENSE
+README.md
+setup.py
+src/typeshit/__init__.py
+src/typeshit/main.py
+src/typeshit.egg-info/PKG-INFO
+src/typeshit.egg-info/SOURCES.txt
+src/typeshit.egg-info/dependency_links.txt
+src/typeshit.egg-info/entry_points.txt
+src/typeshit.egg-info/requires.txt
+src/typeshit.egg-info/top_level.txt
