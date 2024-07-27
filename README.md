@@ -1,8 +1,8 @@
 # Typeshit
 
-![Typeshit Illustration](illustration.mp4)
+![image](/og.png)
 
-Typeshit is a Python tool that detects and corrects text input, particularly useful for switching between Arabic and English typing.
+[Typeshit](https://typeshit-tool.vercel.app) is a Python tool that detects and corrects text input, particularly useful for switching between Arabic and English typing.
 
 ## Installation
 
@@ -50,5 +50,5 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Contact
 
 Ebrahim Ramadan - [ramadanebrahim791@gmail.com](mailto:ramadanebrahim791@gmail.com)
-
-Project Link: [https://github.com/ebrahim-ramadan/wetype](https://github.com/ebrahim-ramadan/wetype)
+My portfolio: [https://ebrahim-ramadan.vercel.app](https://ebrahim-ramadan.vercel.app)
+PyPi Library: [https://pypi.org/project/typeshit/](https://pypi.org/project/typeshit/)
